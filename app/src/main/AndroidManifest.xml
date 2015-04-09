@@ -2,6 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.felipe.desenvolvimentomobile" >
 
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="17" />
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -24,12 +32,6 @@
             android:name=".CameraActivity"
             android:label="DesenvolvimentoMobile">
         </activity>
-        <uses-sdk
-            android:minSdkVersion="8"
-            android:targetSdkVersion="17" />
-        <uses-permission android:name="android.permission.CAMERA"/>
-        <uses-feature android:name="android.hardware.camera" />
-        <uses-feature android:name="android.hardware.camera.autofocus" />
 
         <application
             android:allowBackup="true"
