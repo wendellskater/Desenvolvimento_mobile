@@ -21,6 +21,7 @@ import android.view.View;
 import android.hardware.Camera;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -35,9 +36,10 @@ public class CameraActivity extends Activity {
     public static Camera isCameraAvailiable(){
         Camera object = null;
         try {
-            object = Camera.open();
+            object = Camera.open(0);
         }
         catch (Exception e){
+            throw new RuntimeException("TESTE");
         }
         return object;
     }
@@ -69,8 +71,8 @@ public class CameraActivity extends Activity {
         pic = (ImageView)findViewById(R.id.imageView1);
         cameraObject = isCameraAvailiable();
         showCamera = new ShowCamera(this, cameraObject);
-        FrameLayout preview;
-        preview = (FrameLayout) findViewById(camera_preview);
+        RelativeLayout preview;
+        preview = (RelativeLayout) findViewById(camera_preview);
         preview.addView(showCamera);
     }
 
