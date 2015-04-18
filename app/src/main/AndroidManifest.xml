@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-permission android:name="android.permission.write_external_storage"/>
 
 
     <application
@@ -17,7 +18,9 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,11 +29,15 @@
         </activity>
         <activity
             android:name=".AboutActivity"
-            android:label="DesenvolvimentoMobile">
+            android:label="DesenvolvimentoMobile"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation">
         </activity>
         <activity
             android:name=".CameraActivity"
-            android:label="DesenvolvimentoMobile">
+            android:label="DesenvolvimentoMobile"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation">
         </activity>
 
         <application
@@ -40,7 +47,9 @@
             android:theme="@style/AppTheme" >
             <activity
                 android:name="com.example.camera1.MainActivity"
-                android:label="@string/app_name" >
+                android:label="@string/app_name"
+                android:screenOrientation="portrait"
+                android:configChanges="orientation">
                 <intent-filter>
                     <action android:name="android.intent.action.MAIN" />
 

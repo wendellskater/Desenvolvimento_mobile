@@ -27,12 +27,18 @@
         android:layout_gravity="top"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:id="@+id/relativeLayout3">
 
         <RelativeLayout
             android:id="@+id/camera_preview"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            android:layout_height="fill_parent"
+            android:layout_gravity="top"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
         </RelativeLayout>
 
     </RelativeLayout>
@@ -42,21 +48,46 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:scaleType="fitXY"
-        android:src="@drawable/ic_launcher" />
+        android:src="@drawable/ic_launcher"/>
 
     <RelativeLayout
-        android:layout_width="360px"
+        android:layout_width="200px"
+        android:layout_height="100px"
+        android:background="@drawable/repetir"
+        android:gravity="center|center_vertical|center_horizontal"
+        android:layout_gravity="top"
+        android:clickable="true"
+        android:onClick="botaoExibirNovaTela2"
+        android:layout_below="@+id/relativeLayout3"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/relativeLayout4">
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="150px"
         android:layout_height="100px"
         android:background="@drawable/capturar"
         android:gravity="center|center_vertical|center_horizontal"
         android:layout_gravity="top"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
         android:clickable="true"
         android:onClick="snapIt"
-        android:layout_alignParentLeft="false"
-        android:layout_alignParentTop="false"
-        android:layout_marginBottom="60dp">
+        android:id="@+id/relativeLayout4"
+        android:layout_below="@+id/relativeLayout3"
+        android:layout_centerHorizontal="true">
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="200px"
+        android:layout_height="100px"
+        android:background="@drawable/salvar"
+        android:layout_gravity="top"
+        android:clickable="true"
+        android:onClick="onPictureTaken"
+        android:gravity="right"
+        android:layout_alignTop="@+id/relativeLayout4"
+        android:layout_alignRight="@+id/imageView1"
+        android:layout_alignEnd="@+id/imageView1">
     </RelativeLayout>
 
 
@@ -73,18 +104,17 @@
         android:onClick="botaoExibirNovaTela">
      </RelativeLayout>-->
 
-        <RelativeLayout
-            android:layout_width="360px"
-            android:layout_height="100px"
-            android:background="@drawable/share"
-            android:gravity="center|center_vertical|center_horizontal"
-            android:layout_gravity="top"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:clickable="true"
-            android:onClick="botaoExibirNovaTela"
-            android:layout_alignParentLeft="false"
-            android:layout_alignParentRight="false">
+    <RelativeLayout
+        android:layout_width="360px"
+        android:layout_height="100px"
+        android:background="@drawable/home"
+        android:gravity="center|center_vertical|center_horizontal"
+        android:layout_gravity="top"
+        android:id="@+id/relativeLayout"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:clickable="true"
+        android:onClick="botaoExibirNovaTela">
 
     </RelativeLayout>
 

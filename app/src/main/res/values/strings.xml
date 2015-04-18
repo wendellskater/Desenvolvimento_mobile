@@ -7,11 +7,12 @@
     <string name="sobre">About</string>
     <string name="main_button">Começar!</string>
     <string name="mensagem_sobre1">Felipe Miyai RA: 20351694</string>
-    <string name="mensagem_sobre2">Adriana Camargo RA: xxxxxx</string>
-    <string name="mensagem_sobre3">Marco Carneiro RA: xxxxxx</string>
-    <string name="mensagem_sobre4">Marcelo Daparte RA: xxxxxx</string>
-    <string name="mensagem_sobre5">Wendell Queiroz RA: xxxxxx</string>
-    <string name="mensagem_sobre6">Diego Silva RA: xxxxxx</string>
-    <string name="mensagem_sobre7">Murilo Silva RA: xxxxxx</string>
-    <string name="mensagem_sobre8">Felipe Miyai RA: 20351694</string>
+    <string name="mensagem_sobre2">Adriana Camargo RA: 20374925</string>
+    <string name="mensagem_sobre3">Marco Carneiro RA: 20412086</string>
+    <string name="mensagem_sobre4">Marcelo Daparte RA: 20300577</string>
+    <string name="mensagem_sobre5">Wendell Queiroz RA: 20419953</string>
+    <string name="mensagem_sobre6">Diego Silva RA: 20419953</string>
+    <string name="mensagem_sobre7">Murilo Silva RA:  09192168</string>
+    <string name="mensagem_sobre8">Alunos do Grupo</string>
+    <string name="expName">Alunos do Grupo</string>
 </resources>
