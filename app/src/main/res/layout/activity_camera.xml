@@ -39,15 +39,25 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true">
 
+
+
         </RelativeLayout>
 
     </RelativeLayout>
 
+    <!--
     <ImageView
         android:id="@+id/imageView1"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:scaleType="fitXY"
+        android:src="@drawable/ic_launcher"/>
+    -->
+    <org.opencv.android.JavaCameraView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scaleType="fitXY"
+        android:id="@+id/javaCameraView1"
         android:src="@drawable/ic_launcher"/>
 
     <RelativeLayout
@@ -86,8 +96,8 @@
         android:onClick="onPictureTaken"
         android:gravity="right"
         android:layout_alignTop="@+id/relativeLayout4"
-        android:layout_alignRight="@+id/imageView1"
-        android:layout_alignEnd="@+id/imageView1">
+        android:layout_alignRight="@+id/javaCameraView1"
+        android:layout_alignEnd="@+id/javaCameraView1">
     </RelativeLayout>
 
 

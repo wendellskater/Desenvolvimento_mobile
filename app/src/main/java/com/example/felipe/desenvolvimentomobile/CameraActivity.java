@@ -1,34 +1,35 @@
 package com.example.felipe.desenvolvimentomobile;
 
-/**
- * Created by felipe on 28/03/2015.
- */
-
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.Environment;
-import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
-import android.view.View;
 import android.hardware.Camera;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
+import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import java.io.BufferedOutputStream;
+import com.example.felipe.desenvolvimentomobile.opencv.FiltroHistograma;
+import com.example.felipe.desenvolvimentomobile.opencv.FiltroLaplaciano;
+import com.example.felipe.desenvolvimentomobile.opencv.FiltroNegativo;
+import com.example.felipe.desenvolvimentomobile.opencv.Util;
+
+import org.opencv.android.BaseLoaderCallback;
+import org.opencv.android.CameraBridgeViewBase;
+import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
+import org.opencv.android.CameraBridgeViewBase.CvCameraViewListener2;
+import org.opencv.android.LoaderCallbackInterface;
+import org.opencv.android.OpenCVLoader;
+import org.opencv.core.Core;
+import org.opencv.core.CvType;
+import org.opencv.core.Mat;
+import org.opencv.imgproc.Imgproc;
+
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -36,12 +37,40 @@ import java.util.Date;
 
 import static com.example.felipe.desenvolvimentomobile.R.id.camera_preview;
 
-public class CameraActivity extends Activity {
+public class CameraActivity extends Activity implements CvCameraViewListener2 {
 
-    private  byte[] __data;
+
+    private Mat                    mRgba;
+    private Mat                    mIntermediateMat;
+    private Mat                    mGray;
+
     private Camera cameraObject;
     private ShowCamera showCamera;
-    private ImageView pic;
+    private CameraBridgeViewBase   mOpenCvCameraView;
+
+    public static final int MEDIA_TYPE_IMAGE = 1;
+    public static final int MEDIA_TYPE_VIDEO = 2;
+    byte[] __data;
+
+    private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
+
+        @Override
+        public void onManagerConnected(int status) {
+            switch (status) {
+                case LoaderCallbackInterface.SUCCESS:
+                {
+                    Log.i("INFO", "OpenCV loaded successfully");
+                    mOpenCvCameraView.enableView();
+                } break;
+                default:
+                {
+                    Log.i("ERROR", "OpenCV NOT loaded successfully");
+                    super.onManagerConnected(status);
+                } break;
+            }
+        }
+    };
+
     public static Camera isCameraAvailiable(){
         Camera object = null;
         try {
@@ -54,7 +83,6 @@ public class CameraActivity extends Activity {
     }
 
     private Camera.PictureCallback capturedIt;
-
     {
         capturedIt = new Camera.PictureCallback() {
 
@@ -78,23 +106,23 @@ public class CameraActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
 
-        pic = (ImageView)findViewById(R.id.imageView1);
-        cameraObject = isCameraAvailiable();
-        showCamera = new ShowCamera(this, cameraObject);
+        //pic = (ImageView)findViewById(R.id.imageView1);
+        //cameraObject = isCameraAvailiable();
+        //showCamera = new ShowCamera(this, cameraObject);
         RelativeLayout preview;
         preview = (RelativeLayout) findViewById(camera_preview);
-        preview.addView(showCamera);
+        //preview.addView(showCamera);
+
+        mOpenCvCameraView = (CameraBridgeViewBase) findViewById(R.id.javaCameraView1);
+        mOpenCvCameraView.setCvCameraViewListener(this);
+
+
     }
 
     public void snapIt(View view){
         cameraObject.takePicture(null, null, capturedIt);
     }
 
-
-    //Salva as fotinhas
-
-    public static final int MEDIA_TYPE_IMAGE = 1;
-    public static final int MEDIA_TYPE_VIDEO = 2;
 
     /** Create a file Uri for saving an image or video */
     private static Uri getOutputMediaFileUri(int type){
@@ -139,24 +167,19 @@ public class CameraActivity extends Activity {
         byte[] data = __data;
 
 
-            File pictureFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
-            if (pictureFile == null) {
-                return;
-            }
-
-            try {
-                FileOutputStream fos = new FileOutputStream(pictureFile);
-                fos.write(data);
-                fos.close();
-            } catch (FileNotFoundException e) {
-                Log.i("felipe ", e.getMessage());
-            } catch (IOException e) {
-                Log.i("felipe ", e.getMessage());
-            }
+        File pictureFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
+        if (pictureFile == null) {
+            return;
         }
 
-
-
+        try {
+            FileOutputStream fos = new FileOutputStream(pictureFile);
+            fos.write(data);
+            fos.close();
+        } catch (IOException e) {
+            Log.i("felipe ", e.getMessage());
+        }
+    }
 
 
     public void botaoExibirNovaTela(View view) {
@@ -179,6 +202,59 @@ public class CameraActivity extends Activity {
         startActivity(intent);
 
         finish();
+    }
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+        if (mOpenCvCameraView != null)
+            mOpenCvCameraView.disableView();
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_2_4_3, this, mLoaderCallback);
+    }
+
+    public void onDestroy() {
+        super.onDestroy();
+        if (mOpenCvCameraView != null)
+            mOpenCvCameraView.disableView();
+    }
+
+    @Override
+    public void onCameraViewStarted(int width, int height) {
+        mRgba = new Mat(height, width, CvType.CV_8UC4);
+        mIntermediateMat = new Mat(height, width, CvType.CV_8UC4);
+        mGray = new Mat(height, width, CvType.CV_8UC1);
+    }
+
+    @Override
+    public void onCameraViewStopped() {
+        mRgba.release();
+        mGray.release();
+        mIntermediateMat.release();
+    }
+
+    @Override
+    public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
+
+        //CAPTURO OBJETO MAT DO FRAME ATUAL
+        mRgba = inputFrame.rgba();
+        mGray = inputFrame.gray();
+
+
+        //ROTACIONO PARA ADEQUEAR AO PORTRAIT
+        mRgba = Util.Rotate(mRgba);
+        mGray = Util.Rotate(mGray);
+
+        //APLICO FILTRO
+        //TODO: COLOCAR SELETOR E OBTER UM FILTRO DE UMA FACTORY
+        FiltroNegativo f = new FiltroNegativo();
+        return f.aplicarFiltro(mRgba, mGray);
     }
 
 }
