@@ -38,9 +38,6 @@
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true">
-
-
-
         </RelativeLayout>
 
     </RelativeLayout>
@@ -100,7 +97,6 @@
         android:layout_alignEnd="@+id/javaCameraView1">
     </RelativeLayout>
 
-
     <!--<RelativeLayout
         android:layout_width="360px"
         android:layout_height="100px"
@@ -127,14 +123,4 @@
         android:onClick="botaoExibirNovaTela">
 
     </RelativeLayout>
-
-
-
-
-
-
-
-
-
-
 </RelativeLayout>

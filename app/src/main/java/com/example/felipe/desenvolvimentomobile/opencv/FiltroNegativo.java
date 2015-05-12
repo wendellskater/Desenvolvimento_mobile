@@ -11,6 +11,11 @@ import org.opencv.imgproc.Imgproc;
 public class FiltroNegativo extends FiltroImagem {
 
     @Override
+    public Mat aplicarFiltro(Mat sourceRgba) {
+        return null;
+    }
+
+    @Override
     public Mat aplicarFiltro(Mat sourceRgba, Mat sourceGray) {
 
         sourceRgba = new FiltroTonsDeCinza().aplicarFiltro(sourceRgba, sourceGray);

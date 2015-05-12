@@ -53,6 +53,11 @@ public class FiltroHistograma extends FiltroImagem {
     }
 
     @Override
+    public Mat aplicarFiltro(Mat sourceRgba) {
+        return null;
+    }
+
+    @Override
     public Mat aplicarFiltro(Mat sourceRgba, Mat sourceGray) {
 
 

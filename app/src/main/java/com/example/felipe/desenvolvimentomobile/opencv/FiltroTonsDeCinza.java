@@ -8,6 +8,11 @@ import org.opencv.imgproc.Imgproc;
 public class FiltroTonsDeCinza extends FiltroImagem {
 
     @Override
+    public Mat aplicarFiltro(Mat sourceRgba) {
+        return null;
+    }
+
+    @Override
     public Mat aplicarFiltro(Mat sourceRgba, Mat sourceGray) {
         Imgproc.cvtColor(sourceRgba, sourceRgba, Imgproc.COLOR_RGB2GRAY);
         Imgproc.cvtColor(sourceRgba, sourceRgba, Imgproc.COLOR_GRAY2RGB, 4);

@@ -15,4 +15,13 @@
     <string name="mensagem_sobre7">Murilo Silva RA:  09192168</string>
     <string name="mensagem_sobre8">Alunos do Grupo</string>
     <string name="expName">Alunos do Grupo</string>
+    <string name="mn_borda_vertical">Borda Vertical</string>
+    <string name="mn_borda_horizontal">Borda Horizontal</string>
+    <string name="mn_laplace">Laplaciano</string>
+    <string name="mn_negativo">Negativo</string>
+    <string name="mn_gray">Tons Cinza</string>
+    <string name="mn_histograma">Histograma</string>
+    <string name="mn_contraste">Constraste</string>
+    <string name="mn_sem_filtro">Normal</string>
+    <string name="mn_rgba">Normal</string>
 </resources>
