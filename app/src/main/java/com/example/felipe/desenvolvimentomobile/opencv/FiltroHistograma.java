@@ -11,6 +11,13 @@ import org.opencv.imgproc.Imgproc;
 
 import java.util.Arrays;
 
+
+/**
+ * @author Marcelo Daparte
+ * @since 06/05/2015
+ * Classe que aplica filtro com o histograma.
+ */
+
 public class FiltroHistograma extends FiltroImagem {
 
     private Scalar[] mColorsHue;
@@ -53,12 +60,16 @@ public class FiltroHistograma extends FiltroImagem {
     }
 
     @Override
-    public Mat aplicarFiltro(Mat sourceRgba) {
-        return null;
+    public Mat aplicarFiltro(Mat sourceRgba, Mat sourceGray) {
+        return aplicarFiltro(sourceRgba);
     }
 
+    /**
+     * Método que aplica o filtro
+     * @param sourceRgba Mat aonde será aplicado o filtro.
+     * */
     @Override
-    public Mat aplicarFiltro(Mat sourceRgba, Mat sourceGray) {
+    public Mat aplicarFiltro(Mat sourceRgba) {
 
 
         Mat hist = new Mat();

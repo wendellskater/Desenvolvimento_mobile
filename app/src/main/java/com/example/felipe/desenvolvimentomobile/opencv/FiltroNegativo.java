@@ -8,17 +8,26 @@ import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
 
+/**
+ * @author Marcelo Daparte
+ * @since 06/05/2015
+ * Classe que aplica filtro de Negativo de Tons de Cinza.
+ */
 public class FiltroNegativo extends FiltroImagem {
 
     @Override
-    public Mat aplicarFiltro(Mat sourceRgba) {
-        return null;
+    public Mat aplicarFiltro(Mat sourceRgba, Mat sourceGray) {
+        return aplicarFiltro(sourceRgba);
     }
 
+    /**
+     * Método que aplica o filtro
+     * @param sourceRgba Mat aonde será aplicado o filtro.
+     * */
     @Override
-    public Mat aplicarFiltro(Mat sourceRgba, Mat sourceGray) {
+    public Mat aplicarFiltro(Mat sourceRgba) {
 
-        sourceRgba = new FiltroTonsDeCinza().aplicarFiltro(sourceRgba, sourceGray);
+        sourceRgba = new FiltroTonsDeCinza().aplicarFiltro(sourceRgba);
 
         for (int i = 0; i < sourceRgba.rows() ; ++i) {
             for (int j = 0; j < sourceRgba.cols() ; ++j) {

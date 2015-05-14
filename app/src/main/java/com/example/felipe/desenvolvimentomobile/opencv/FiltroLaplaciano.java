@@ -9,8 +9,17 @@ import org.opencv.core.Mat;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
+/**
+ * @author Marcelo Daparte
+ * @since 06/05/2015
+ * Classe que aplica filtro Laplaciano.
+ */
 public class FiltroLaplaciano extends FiltroImagem {
 
+    /**
+     * Método que aplica o filtro
+     * @param sourceRgba Mat aonde será aplicado o filtro.
+     * */
     @Override
     public Mat aplicarFiltro(Mat sourceRgba) {
 
@@ -27,9 +36,7 @@ public class FiltroLaplaciano extends FiltroImagem {
 
     @Override
     public Mat aplicarFiltro(Mat sourceRgba, Mat sourceGray) {
-        Mat retorno = new Mat();
-        Imgproc.Laplacian(sourceGray, retorno, 0);
-        return retorno;
+        return aplicarFiltro(sourceRgba);
     }
 }
 

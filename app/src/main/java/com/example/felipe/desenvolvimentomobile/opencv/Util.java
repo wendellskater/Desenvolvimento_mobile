@@ -6,6 +6,11 @@ import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
 
 
+/**
+ * @author Marcelo Daparte
+ * @since 06/05/2015
+ * Classe que expõe métodos genéricos e úteis para objetos do OpenCv.
+ */
 public class Util {
 
     public static final int VIEW_MODE_RGBA = 0;

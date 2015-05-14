@@ -6,7 +6,7 @@ import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
 
 /**
- * Interface para indicar que classe manipula imagens
+ * Classe abstrata para indicar que classe manipula imagens
  */
 public abstract class FiltroImagem {
 

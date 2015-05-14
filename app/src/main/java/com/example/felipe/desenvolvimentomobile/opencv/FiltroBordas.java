@@ -6,6 +6,11 @@ import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
 
+/**
+ * @author Marco Carneiro
+ * @since 09/05/2015
+ * Classe que aplica filtro de bordas, horizontais e verticais.
+ */
 public class FiltroBordas extends FiltroImagem {
 
     public static int VERTICAL = 1;
@@ -14,8 +19,8 @@ public class FiltroBordas extends FiltroImagem {
 
 
     @Override
-    public Mat aplicarFiltro(Mat sourceRGBA, Mat sourceGray) {
-        return null;
+    public Mat aplicarFiltro(Mat sourceRgba, Mat sourceGray) {
+        return aplicarFiltro(sourceRgba);
     }
 
     public FiltroBordas(int orientacao) {
@@ -23,10 +28,9 @@ public class FiltroBordas extends FiltroImagem {
     }
 
     /**
-     * Marco Carneiro
-     * @param sourceRgba
-     * @return
-     */
+     * Método que aplica o filtro
+     * @param sourceRgba Mat aonde será aplicado o filtro.
+     * */
     @Override
     public Mat aplicarFiltro(Mat sourceRgba) {
 

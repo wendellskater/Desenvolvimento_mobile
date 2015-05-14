@@ -4,14 +4,20 @@ import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 
 /**
- * Created by mcarneir on 09/05/2015.
+ * @author Marco Carneiro
+ * @since 09/05/2015
+ * Classe que aplica filtro de contraste.
  */
 public class FiltroConstraste extends FiltroImagem {
     @Override
     public Mat aplicarFiltro(Mat sourceRgba, Mat sourceGray) {
-        return null;
+        return aplicarFiltro(sourceRgba);
     }
 
+    /**
+     * Método que aplica o filtro
+     * @param sourceRgba Mat aonde será aplicado o filtro.
+     * */
     @Override
     public Mat aplicarFiltro(Mat sourceRgba) {
 
