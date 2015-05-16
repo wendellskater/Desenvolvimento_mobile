@@ -178,11 +178,12 @@ public class CameraActivity extends Activity {
 
     public void botaoExibirNovaTela(View view) {
 
-        Intent intent = new Intent();
-        intent.setClass(CameraActivity.this,
-                MainActivity.class);
+//        Intent intent = new Intent();
+//        intent.setClass(CameraActivity.this,
+//                MainActivity.class);
 
-        startActivity(intent);
+        startActivity( new Intent(CameraActivity.this,
+                MainActivity.class));
 
         finish();
     }
