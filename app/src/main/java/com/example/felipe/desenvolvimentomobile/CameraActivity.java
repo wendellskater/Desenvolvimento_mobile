@@ -2,23 +2,14 @@ package com.example.felipe.desenvolvimentomobile;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.hardware.Camera;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
-
-import android.widget.Toast;
 
 import com.example.felipe.desenvolvimentomobile.opencv.FiltroBordas;
 import com.example.felipe.desenvolvimentomobile.opencv.FiltroConstraste;
@@ -33,16 +24,9 @@ import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewListener2;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
-
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
-
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import org.opencv.highgui.Highgui;
 
 import static com.example.felipe.desenvolvimentomobile.R.id.camera_preview;
 
@@ -53,16 +37,17 @@ public class CameraActivity extends Activity implements CvCameraViewListener2 {
     private Mat mIntermediateMat;
     private Mat mGray;
 
-    private Camera cameraObject;
-    private ShowCamera showCamera;
+    //    private Camera cameraObject;
+//    private ShowCamera showCamera;
     private CameraBridgeViewBase mOpenCvCameraView;
 
-    public static final int MEDIA_TYPE_IMAGE = 1;
-    public static final int MEDIA_TYPE_VIDEO = 2;
-    byte[] __data;
+    //    public static final int MEDIA_TYPE_IMAGE = 1;
+//    public static final int MEDIA_TYPE_VIDEO = 2;
+//    byte[] __data;
     public static int viewMode = Util.VIEW_MODE_RGBA;
     public static final int VERTICAL = 1;
     public static final int HORIZONTAL = 0;
+    public boolean hasPicture = false;
 
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
 
@@ -88,15 +73,10 @@ public class CameraActivity extends Activity implements CvCameraViewListener2 {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        //pic = (ImageView)findViewById(R.id.imageView1);
-        //cameraObject = isCameraAvailiable();
-        //showCamera = new ShowCamera(this, cameraObject);
         RelativeLayout preview;
         preview = (RelativeLayout) findViewById(camera_preview);
-        //preview.addView(showCamera);
         mOpenCvCameraView = (CameraBridgeViewBase) findViewById(R.id.javaCameraView1);
         mOpenCvCameraView.setCvCameraViewListener(this);
-
     }
 
     @Override
@@ -110,6 +90,7 @@ public class CameraActivity extends Activity implements CvCameraViewListener2 {
         mRgba = new Mat(height, width, CvType.CV_8UC4);
         mIntermediateMat = new Mat(height, width, CvType.CV_8UC4);
         mGray = new Mat(height, width, CvType.CV_8UC1);
+
     }
 
     public static Camera isCameraAvailiable() {
@@ -122,120 +103,49 @@ public class CameraActivity extends Activity implements CvCameraViewListener2 {
         return object;
     }
 
-    private Camera.PictureCallback capturedIt;
+    public void btnVoltaInicio(View view) {
 
-    {
-        capturedIt = new Camera.PictureCallback() {
-
-            @Override
-            public void onPictureTaken(byte[] data, Camera camera) {
-
-                __data = data;
-                Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-                if (bitmap == null) {
-                    Toast.makeText(getApplicationContext(), "not taken", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getApplicationContext(), "taken", Toast.LENGTH_SHORT).show();
-                }
-                cameraObject.release();
-            }
-        };
-    }
-
-
-    public void snapIt(View view) {
-        cameraObject.takePicture(null, null, capturedIt);
-    }
-
-
-    /**
-     * Create a file Uri for saving an image or video
-     */
-    private static Uri getOutputMediaFileUri(int type) {
-        return Uri.fromFile(getOutputMediaFile(type));
-    }
-
-    /**
-     * Create a File for saving an image or video
-     */
-    private static File getOutputMediaFile(int type) {
-        // To be safe, you should check that the SDCard is mounted
-        // using Environment.getExternalStorageState() before doing this.
-
-        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), "MyCameraApp");
-        // This location works best if you want the created images to be shared
-        // between applications and persist after your app has been uninstalled.
-
-        // Create the storage directory if it does not exist
-        if (!mediaStorageDir.exists()) {
-            if (!mediaStorageDir.mkdirs()) {
-                Log.d("MyCameraApp", "failed to create directory");
-                return null;
-            }
-        }
-
-        // Create a media file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        File mediaFile;
-        if (type == MEDIA_TYPE_IMAGE) {
-            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-                    "IMG_" + timeStamp + ".jpg");
-        } else if (type == MEDIA_TYPE_VIDEO) {
-            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-                    "VID_" + timeStamp + ".mp4");
-        } else {
-            return null;
-        }
-
-        return mediaFile;
-    }
-
-    public void onPictureTaken(View view) {
-        byte[] data = __data;
-
-        File pictureFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
-        if (pictureFile == null) {
-            return;
-        }
-
-        try {
-            FileOutputStream fos = new FileOutputStream(pictureFile);
-            fos.write(data);
-            fos.close();
-        } catch (IOException e) {
-            Log.i("felipe ", e.getMessage());
-        }
-    }
-
-
-    public void botaoExibirNovaTela(View view) {
-
-        Intent intent = new Intent();
-        intent.setClass(CameraActivity.this,
-                MainActivity.class);
-
-        startActivity(intent);
+        startActivity(new Intent(this, MainActivity.class));
 
         finish();
     }
 
-    public void botaoExibirNovaTela2(View view) {
-
-        Intent intent = new Intent();
-        intent.setClass(CameraActivity.this,
-                CameraActivity.class);
-
-        startActivity(intent);
+    public void btnRepetir(View view) {
+        recreate();
 
         finish();
     }
 
     /**
-     * @TODO
-     * Solu&ccedil;&atilde;o para alterar a cor de texto OptionsMenu.
+     * Aciona captura da Foto.
+     *
+     * @param view
+     * @author Marco Carneiro
+     * @since 17/05/2015
+     */
+    public void fotografar(View view) {
+        hasPicture = true;
+    }
+
+    /**
+     * Recebe a foto da camera e salva no cartão de memória.
+     *
+     * @param anFoto
+     * @author Marco Carneiro
+     * @since 17/05/2015
+     */
+    public void salvarFoto(Mat anFoto) {
+        String filePath = SdCardUtils.getSdCardDirPath(null);
+
+        if (!Highgui.imwrite(filePath, anFoto)) {
+            Log.e("Fotografar", "Erro ao Salvar Foto");
+        }
+    }
+
+    /**
      * @param menu
      * @return
+     * @TODO Solu&ccedil;&atilde;o para alterar a cor de texto OptionsMenu.
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -314,6 +224,11 @@ public class CameraActivity extends Activity implements CvCameraViewListener2 {
                 filtroResult = new FiltroHistograma().aplicarFiltro(mRgba, mGray);
                 break;
         }
+
+        if (hasPicture) {
+            hasPicture = false;
+            salvarFoto(filtroResult);
+        }
         return filtroResult;
     }
 
@@ -336,4 +251,92 @@ public class CameraActivity extends Activity implements CvCameraViewListener2 {
         mGray.release();
         mIntermediateMat.release();
     }
+    /*
+    private Camera.PictureCallback capturedIt;
+
+    {
+        capturedIt = new Camera.PictureCallback() {
+
+            @Override
+            public void onPictureTaken(byte[] data, Camera camera) {
+
+                __data = data;
+                Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                if (bitmap == null) {
+                    Toast.makeText(getApplicationContext(), "not taken", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "taken", Toast.LENGTH_SHORT).show();
+                }
+                cameraObject.release();
+            }
+        };
+    }
+
+
+    public void snapIt(View view) {
+        cameraObject.takePicture(null, null, capturedIt);
+    }
+*/
+
+    /**
+     * Create a file Uri for saving an image or video
+     */
+ /*   private static Uri getOutputMediaFileUri(int type) {
+        return Uri.fromFile(getOutputMediaFile(type));
+    }
+*/
+    /**
+     * Create a File for saving an image or video
+     */
+/*    private static File getOutputMediaFile(int type) {
+        // To be safe, you should check that the SDCard is mounted
+        // using Environment.getExternalStorageState() before doing this.
+
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), "MyCameraApp");
+        // This location works best if you want the created images to be shared
+        // between applications and persist after your app has been uninstalled.
+
+        // Create the storage directory if it does not exist
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
+                Log.d("MyCameraApp", "failed to create directory");
+                return null;
+            }
+        }
+
+        // Create a media file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File mediaFile;
+        if (type == MEDIA_TYPE_IMAGE) {
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+                    "IMG_" + timeStamp + ".jpg");
+        } else if (type == MEDIA_TYPE_VIDEO) {
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+                    "VID_" + timeStamp + ".mp4");
+        } else {
+            return null;
+        }
+
+        return mediaFile;
+    }
+
+    public void onPictureTaken(View view) {
+        byte[] data = __data;
+
+        File pictureFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
+        if (pictureFile == null) {
+            return;
+        }
+
+        try {
+            FileOutputStream fos = new FileOutputStream(pictureFile);
+            fos.write(data);
+            fos.close();
+        } catch (IOException e) {
+            Log.i("felipe ", e.getMessage());
+        }
+    }
+*/
+
 }

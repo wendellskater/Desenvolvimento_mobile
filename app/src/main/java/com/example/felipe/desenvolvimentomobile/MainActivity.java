@@ -26,24 +26,15 @@ public class MainActivity extends ActionBarActivity {
                 .show();
     }
 
-    public void botaoExibirNovaTela(View view) {
+    public void btnAbout(View view) {
 
-        Intent intent = new Intent();
-        intent.setClass(MainActivity.this,
-                AboutActivity.class);
-
-        startActivity(intent);
-
+        startActivity(new Intent(this,AboutActivity.class));
         finish();
     }
 
-    public void botaoExibirNovaTela2(View view) {
+    public void btnComecar(View view) {
 
-        Intent intent = new Intent();
-        intent.setClass(MainActivity.this,
-                CameraActivity.class);
-
-        startActivity(intent);
+        startActivity(new Intent(this,CameraActivity.class));
 
         finish();
     }
